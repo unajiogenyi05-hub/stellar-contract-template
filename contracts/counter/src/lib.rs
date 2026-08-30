@@ -36,7 +36,7 @@ mod tests {
     #[test]
     fn test_increment() {
         let env = Env::default();
-        let contract_id = env.register_contract(None, CounterContract);
+        let contract_id = env.register(CounterContract, ());
         let client = CounterContractClient::new(&env, &contract_id);
 
         assert_eq!(client.increment(), 1);
@@ -47,7 +47,7 @@ mod tests {
     #[test]
     fn test_get() {
         let env = Env::default();
-        let contract_id = env.register_contract(None, CounterContract);
+        let contract_id = env.register(CounterContract, ());
         let client = CounterContractClient::new(&env, &contract_id);
 
         assert_eq!(client.get(), 0);
@@ -58,7 +58,7 @@ mod tests {
     #[test]
     fn test_reset() {
         let env = Env::default();
-        let contract_id = env.register_contract(None, CounterContract);
+        let contract_id = env.register(CounterContract, ());
         let client = CounterContractClient::new(&env, &contract_id);
 
         client.increment();

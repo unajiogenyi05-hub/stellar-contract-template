@@ -20,7 +20,7 @@ mod tests {
     #[test]
     fn test_hello() {
         let env = Env::default();
-        let contract_id = env.register_contract(None, HelloWorldContract);
+        let contract_id = env.register(HelloWorldContract, ());
         let client = HelloWorldContractClient::new(&env, &contract_id);
 
         let result = client.hello(&symbol_short!("Dev"));

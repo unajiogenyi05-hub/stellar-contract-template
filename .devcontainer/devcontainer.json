@@ -1,0 +1,25 @@
+{
+  "name": "stellar-contract-template",
+  "image": "mcr.microsoft.com/devcontainers/rust:1-bullseye",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "serayuzgur.crates",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "rust-analyzer.checkOnSave.command": "clippy",
+        "rust-analyzer.checkOnSave.extraArgs": [
+          "--target",
+          "wasm32-unknown-unknown"
+        ]
+      }
+    }
+  },
+  "remoteEnv": {
+    "CARGO_TERM_COLOR": "always"
+  }
+}

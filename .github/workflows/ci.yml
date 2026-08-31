@@ -51,7 +51,7 @@ jobs:
         with:
           targets: wasm32v1-none
       - name: Install stellar-cli
-        run: cargo install --locked stellar-cli --features opt
+        run: cargo install --locked stellar-cli
       - name: Build contracts
         run: stellar contract build
       - name: Upload WASM artifacts

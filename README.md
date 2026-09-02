@@ -3,6 +3,7 @@
 A production-ready template for building and deploying [Soroban](https://soroban.stellar.org) smart contracts on the Stellar network.
 
 [![CI](https://github.com/unajiogenyi05-hub/stellar-contract-template/actions/workflows/ci.yml/badge.svg)](https://github.com/unajiogenyi05-hub/stellar-contract-template/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
@@ -16,6 +17,9 @@ A production-ready template for building and deploying [Soroban](https://soroban
 | `.github/workflows/ci.yml` | CI: fmt, clippy, test, build on every push/PR |
 | `.devcontainer/` | One-click dev environment for VS Code / Codespaces |
 | `Makefile` | Common commands (`build`, `test`, `deploy-testnet`, …) |
+| `CHANGELOG.md` | Project changelog following Keep-a-Changelog |
+| `SECURITY.md` | Vulnerability disclosure policy |
+| `CONTRIBUTING.md` | Contribution guide |
 
 ---
 
@@ -25,7 +29,7 @@ A production-ready template for building and deploying [Soroban](https://soroban
 |------|---------|---------|
 | Rust | stable | [rustup.rs](https://rustup.rs) |
 | wasm32 target | — | `rustup target add wasm32v1-none` |
-| stellar-cli | latest | `cargo install --locked stellar-cli --features opt` |
+| stellar-cli | latest | `curl -sSfL https://install.stellar.org \| sh` |
 
 ---
 
@@ -85,7 +89,10 @@ stellar-contract-template/
 ├── .env.example
 ├── .gitignore
 ├── Cargo.toml          # workspace root
-└── Makefile
+├── Makefile
+├── CHANGELOG.md
+├── SECURITY.md
+└── CONTRIBUTING.md
 ```
 
 ---

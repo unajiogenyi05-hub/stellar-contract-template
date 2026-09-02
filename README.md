@@ -24,7 +24,7 @@ A production-ready template for building and deploying [Soroban](https://soroban
 | Tool | Version | Install |
 |------|---------|---------|
 | Rust | stable | [rustup.rs](https://rustup.rs) |
-| wasm32 target | — | `rustup target add wasm32-unknown-unknown` |
+| wasm32 target | — | `rustup target add wasm32v1-none` |
 | stellar-cli | latest | `cargo install --locked stellar-cli --features opt` |
 
 ---

@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "contracts/hello-world",
     "contracts/counter",
+    "examples/escrow",
 ]
 
 [workspace.dependencies]
@@ -21,3 +22,4 @@ lto = true
 [profile.release-with-logs]
 inherits = "release"
 debug-assertions = true
+

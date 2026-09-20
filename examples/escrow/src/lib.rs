@@ -17,6 +17,12 @@
 //!     └─ depositor calls cancel() (before approval) → Cancelled
 //! ```
 
+// Events::publish is deprecated in soroban-sdk v23+ in favour of the
+// #[contractevent] macro, which would change the contract spec (event types
+// become part of the ABI). Migrating is the right long-term move, but it
+// constitutes an interface change — left for a dedicated follow-up PR so that
+// the change is clearly attributed and reviewed separately.
+#![allow(deprecated)]
 #![no_std]
 
 use soroban_sdk::{
@@ -85,7 +91,7 @@ impl EscrowContract {
 
         // Pull tokens from depositor into contract
         let tk = token::Client::new(&env, &token_address);
-        tk.transfer(&depositor, &env.current_contract_address(), &amount);
+        tk.transfer(&depositor, env.current_contract_address(), &amount);
 
         // Persist state
         env.storage().instance().set(&DEPOSITOR, &depositor);
@@ -93,15 +99,20 @@ impl EscrowContract {
         env.storage().instance().set(&ARBITER, &arbiter);
         env.storage().instance().set(&TOKEN, &token_address);
         env.storage().instance().set(&AMOUNT, &amount);
-        env.storage().instance().set(&STATUS, &EscrowStatus::Pending);
+        env.storage()
+            .instance()
+            .set(&STATUS, &EscrowStatus::Pending);
 
-        env.events()
-            .publish((EVT_DEPOSITED,), (depositor, amount));
+        env.events().publish((EVT_DEPOSITED,), (depositor, amount));
     }
 
     /// Arbiter approves: tokens go to recipient.
     pub fn approve(env: Env) {
-        let arbiter: Address = env.storage().instance().get(&ARBITER).expect("not initialised");
+        let arbiter: Address = env
+            .storage()
+            .instance()
+            .get(&ARBITER)
+            .expect("not initialised");
         arbiter.require_auth();
         Self::require_pending(&env);
 
@@ -121,7 +132,11 @@ impl EscrowContract {
 
     /// Arbiter refunds: tokens return to depositor.
     pub fn refund(env: Env) {
-        let arbiter: Address = env.storage().instance().get(&ARBITER).expect("not initialised");
+        let arbiter: Address = env
+            .storage()
+            .instance()
+            .get(&ARBITER)
+            .expect("not initialised");
         arbiter.require_auth();
         Self::require_pending(&env);
 
@@ -141,8 +156,11 @@ impl EscrowContract {
 
     /// Depositor cancels before arbitration.
     pub fn cancel(env: Env) {
-        let depositor: Address =
-            env.storage().instance().get(&DEPOSITOR).expect("not initialised");
+        let depositor: Address = env
+            .storage()
+            .instance()
+            .get(&DEPOSITOR)
+            .expect("not initialised");
         depositor.require_auth();
         Self::require_pending(&env);
 
@@ -173,15 +191,24 @@ impl EscrowContract {
     }
 
     pub fn depositor(env: Env) -> Address {
-        env.storage().instance().get(&DEPOSITOR).expect("not initialised")
+        env.storage()
+            .instance()
+            .get(&DEPOSITOR)
+            .expect("not initialised")
     }
 
     pub fn recipient(env: Env) -> Address {
-        env.storage().instance().get(&RECIPIENT).expect("not initialised")
+        env.storage()
+            .instance()
+            .get(&RECIPIENT)
+            .expect("not initialised")
     }
 
     pub fn arbiter(env: Env) -> Address {
-        env.storage().instance().get(&ARBITER).expect("not initialised")
+        env.storage()
+            .instance()
+            .get(&ARBITER)
+            .expect("not initialised")
     }
 
     // ── Internal ─────────────────────────────────────────────────────────────
@@ -242,13 +269,7 @@ mod tests {
 
     fn deposit_helper(s: &TestSetup, amount: i128) {
         let client = EscrowContractClient::new(&s.env, &s.contract_id);
-        client.deposit(
-            &s.depositor,
-            &s.recipient,
-            &s.arbiter,
-            &s.token,
-            &amount,
-        );
+        client.deposit(&s.depositor, &s.recipient, &s.arbiter, &s.token, &amount);
     }
 
     // ── happy path: approve ───────────────────────────────────────────────────
@@ -367,12 +388,6 @@ mod tests {
     fn test_zero_amount_panics() {
         let s = setup(1_000);
         let client = EscrowContractClient::new(&s.env, &s.contract_id);
-        client.deposit(
-            &s.depositor,
-            &s.recipient,
-            &s.arbiter,
-            &s.token,
-            &0,
-        );
+        client.deposit(&s.depositor, &s.recipient, &s.arbiter, &s.token, &0);
     }
 }

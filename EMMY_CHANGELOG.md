@@ -54,3 +54,24 @@ ecosystem.
 "template + real example" framing needed for the appeal.
 
 ---
+
+## 2026-09-20 (follow-up)
+
+### PR: docs/appeal-framing — Honest appeal framing in README
+
+**File changed:** `README.md`
+
+**What changed:**
+Added a new "About this repo" section near the top (before "What this repo is")
+that explicitly states:
+- This is developer tooling (a Soroban contract template), not a product
+- Its value is reducing time-to-compiling-contract for Stellar/Soroban devs
+- The escrow example makes the template's utility concrete and verifiable
+- The appeal claim is ecosystem tooling value, not a standalone application
+
+**Why:** Confirmed decision from the project owner: the Stellar Wave Program
+appeal should frame this repo honestly as "developer tooling + a real, tested
+example", not disguise it as a full product. The README now states this
+directly so evaluators understand the repo's nature without ambiguity.
+
+---

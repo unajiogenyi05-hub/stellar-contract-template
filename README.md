@@ -8,6 +8,25 @@ A production-ready template for building and deploying
 
 ---
 
+## About this repo
+
+This is a **Soroban smart contract template** — developer tooling, not a
+product or end-user application. Its value is in reducing the time it takes
+a Stellar/Soroban developer to go from zero to a compiling, tested, CI-passing
+contract project.
+
+To make the template's practical utility concrete, the repo also ships a
+**real, fully-tested example contract**: `examples/escrow/` is a trustless
+token escrow built entirely from this scaffold. It demonstrates a non-trivial
+use case (three-party arbitrated escrow), passes all 9 unit tests, and can be
+deployed to testnet with the included scripts.
+
+If you are evaluating this repository: the claim is not that it is a
+standalone application. The claim is that it is useful developer tooling for
+the Soroban ecosystem, backed by a real, working example of what it produces.
+
+---
+
 ## What this repo is
 
 This repository serves two purposes:

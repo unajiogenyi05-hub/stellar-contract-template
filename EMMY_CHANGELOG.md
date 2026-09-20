@@ -54,3 +54,35 @@ ecosystem.
 "template + real example" framing needed for the appeal.
 
 ---
+
+## 2026-09-20 (follow-up)
+
+### PR: fix/ci-lint-format — Fix Clippy and rustfmt CI failures
+
+**File changed:** `examples/escrow/src/lib.rs`
+
+**Clippy warnings fixed:**
+1. `clippy::needless-borrows-for-generic-args` — Removed `&` before
+   `env.current_contract_address()` in the `deposit()` function's `to`
+   argument. The `token::Client::transfer` `to` parameter accepts
+   `impl Into<MuxedAddress>`, not `&Address`, so the borrow was genuinely
+   redundant and clippy's suggestion was correct.
+2. `deprecated: Events::publish` (×4, all event-emit call sites) — Added
+   `#![allow(deprecated)]` at file level with an explanatory comment.
+   The proper fix is to migrate to the `#[contractevent]` macro (soroban-sdk
+   v23+ recommendation), but that macro adds event structs to the contract
+   spec (ABI), which constitutes an interface change. That migration is left
+   for a dedicated PR so the change is explicitly reviewed and attributed.
+   Using `#[allow(deprecated)]` here is intentional, not a silence-by-default.
+
+**rustfmt diffs fixed (8 diffs, all in `examples/escrow/src/lib.rs`):**
+- Method chain formatting: `env.storage().instance().set(...)` and
+  `.get(...).expect(...)` chains that exceeded the line-length threshold
+  reformatted to break after each `.`
+- Two `deposit()` call sites in tests that rustfmt wanted on a single line
+  (within the column limit) collapsed from multi-line to one-liner
+
+**Why:** CI was failing on Format and Clippy jobs while Test and Build were
+passing. This is a pure lint/formatting fix with zero behavior change.
+
+---

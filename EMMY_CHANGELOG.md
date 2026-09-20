@@ -57,32 +57,21 @@ ecosystem.
 
 ## 2026-09-20 (follow-up)
 
-### PR: fix/ci-lint-format — Fix Clippy and rustfmt CI failures
+### PR: docs/appeal-framing — Honest appeal framing in README
 
-**File changed:** `examples/escrow/src/lib.rs`
+**File changed:** `README.md`
 
-**Clippy warnings fixed:**
-1. `clippy::needless-borrows-for-generic-args` — Removed `&` before
-   `env.current_contract_address()` in the `deposit()` function's `to`
-   argument. The `token::Client::transfer` `to` parameter accepts
-   `impl Into<MuxedAddress>`, not `&Address`, so the borrow was genuinely
-   redundant and clippy's suggestion was correct.
-2. `deprecated: Events::publish` (×4, all event-emit call sites) — Added
-   `#![allow(deprecated)]` at file level with an explanatory comment.
-   The proper fix is to migrate to the `#[contractevent]` macro (soroban-sdk
-   v23+ recommendation), but that macro adds event structs to the contract
-   spec (ABI), which constitutes an interface change. That migration is left
-   for a dedicated PR so the change is explicitly reviewed and attributed.
-   Using `#[allow(deprecated)]` here is intentional, not a silence-by-default.
+**What changed:**
+Added a new "About this repo" section near the top (before "What this repo is")
+that explicitly states:
+- This is developer tooling (a Soroban contract template), not a product
+- Its value is reducing time-to-compiling-contract for Stellar/Soroban devs
+- The escrow example makes the template's utility concrete and verifiable
+- The appeal claim is ecosystem tooling value, not a standalone application
 
-**rustfmt diffs fixed (8 diffs, all in `examples/escrow/src/lib.rs`):**
-- Method chain formatting: `env.storage().instance().set(...)` and
-  `.get(...).expect(...)` chains that exceeded the line-length threshold
-  reformatted to break after each `.`
-- Two `deposit()` call sites in tests that rustfmt wanted on a single line
-  (within the column limit) collapsed from multi-line to one-liner
-
-**Why:** CI was failing on Format and Clippy jobs while Test and Build were
-passing. This is a pure lint/formatting fix with zero behavior change.
+**Why:** Confirmed decision from the project owner: the Stellar Wave Program
+appeal should frame this repo honestly as "developer tooling + a real, tested
+example", not disguise it as a full product. The README now states this
+directly so evaluators understand the repo's nature without ambiguity.
 
 ---
